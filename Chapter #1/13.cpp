@@ -8,25 +8,29 @@ using namespace std;
     Author: Ruy Brito
     30/04/17
     Statement:
-        "Write a method to decide if two strings are anagrams or not."
+        "Write a method to replace all spaces in a string with ‘%20’."
 */
 
-// Time Complexity: O(n), Space Complexity: O(1)
-int cnt[256];
-
-void go(string &s1, string &s2) {
-    fr(i, 0, s1.size()) cnt[s1[i]]++;
-    fr(i, 0, s2.size()) cnt[s2[i]]--;
-    bool ans = true;
-    fr(i, 0, 256) if (cnt[i]) ans = false;
-    (ans) ? puts("YES") : puts("NO");
+// Complexity: O(n)
+void solve(string &str) {
+    int cnt = 0, j = str.size() - 1;
+    fr(i, 0, str.size()) if (str[i] == ' ') ++cnt;
+    str.resize(j + 1 + (cnt<<1));
+    for(int i = str.size() - 1; i >= 0; i--) {
+        if (str[j] == ' ') {
+            str[i] = '0';
+            str[i - 1] = '2';
+            str[i - 2] = '%';
+            i -= 2;
+        } else str[i] = str[j];
+        j--;
+    }
 }
 
-// Time Complexity: O(n*logn) -> sort and compare
-
 int main() {
-    string s1, s2;
-    cin >> s1 >> s2;
-    go(s1, s2);
+    string str;
+    getline(cin, str);
+    solve(str);
+    cout << str << endl;
     return 0;
 }

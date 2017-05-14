@@ -6,31 +6,35 @@ using namespace std;
 
 /*
     Author: Ruy Brito
-    30/04/17
+    14/05/17
     Statement:
-        "Write a method to replace all spaces in a string with ‘%20’."
+        "Given a string, write a function to check if it is a permutation of a palin-
+drome. A palindrome is a word or phrase that is the same forwards and backwards. A permutation
+is a rea rrangement of letters. The palindrome does not need to be limited to just dictionary words."
 */
 
-// Complexity: O(n)
-void solve(string &str) {
-    int cnt = 0, j = str.size() - 1;
-    fr(i, 0, str.size()) if (str[i] == ' ') ++cnt;
-    str.resize(j + 1 + (cnt<<1));
-    for(int i = str.size() - 1; i >= 0; i--) {
-        if (str[j] == ' ') {
-            str[i] = '0';
-            str[i - 1] = '2';
-            str[i - 2] = '%';
-            i -= 2;
-        } else str[i] = str[j];
-        j--;
+int mark[30];
+
+// Complexity:
+// Time: O(n)
+// Space: O(1)
+bool solve(string str) {
+    int odd = 0;
+    fr(i, 0, str.size()) {
+        if (str[i] >= 'a' && str[i] <= 'z') {
+            mark[str[i] - 'a']++;
+        } else if (str[i] >= 'A' && str[i] <= 'Z') {
+            mark[str[i] - 'A']++;
+        }
     }
+
+    fr(i, 0, 30) if (mark[i]&1) ++odd;
+    return odd <= 1;
 }
 
 int main() {
     string str;
     getline(cin, str);
-    solve(str);
-    cout << str << endl;
+    solve(str) ? puts("True") : puts("False");
     return 0;
 }
