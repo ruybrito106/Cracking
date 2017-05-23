@@ -1,58 +1,62 @@
 #include <bits/stdc++.h>
-#define fr(a, b, c) for(int a = b; a < c; ++a)
-#define pb push_back
-
-using namespace std;
-
-/*
-    Author: Ruy Brito
-    30/04/17
-    INCOMPLETE
-    Data Structure: Single LinkedList
-*/
 
 class Node {
-    int data;
-    Node *nxt;
+
+    private:
+        Node *next;
+        int val;
 
     public:
-        Node() {};
-        void set_data(int val) { data = val; };
-        void set_next(Node *n) { nxt = n; };
-        int data() { return data; };
-        Node *next() { return nxt; };
+        Node(int v) {
+            next = NULL;
+            val = v;
+        }
+        Node* getNext() { return next; }
+        int getVal() { return val; }
+        void setNext(Node *n) { next = n; }
+        void setVal(int v) { val = v; }
 };
 
 class List {
-    Node *head;
+
+    private:
+        Node *head;
 
     public:
-        List() { head = NULL; };
-        void Append(int data) {
-            Node *n = head;
-            while (n->nxt != NULL) n = n->nxt;
-            Node *node = new Node();
-            node->data = data;
-            node.set_next(NULL);
-            n.set_next(node);
-        };
+        List() { head = NULL; }
 
-        void Delete(int data) {
-            Node *tmp = head;
-            Node *prev;
-            if (tmp == NULL) return;
-            if (tmp->nxt == NULL) {
-                delete tmp;
-                head = NULL;
+        Node *getHead() { return head; }
+
+        void appendTail(Node *n) {
+            if (head == NULL) {
+                head = n;
+                head->setNext(NULL);
             } else {
-                do {
-                    if (tmp.data() == data) break;
-                    prev = tmp;
-                    tmp = tmp->next();
-                } while (tmp != NULL);
+                Node *tmp = head;
+                while (tmp->getNext() != NULL) tmp = tmp->getNext();
+                tmp->setNext(n);
+                n->setNext(NULL);
             }
+        }
 
-            prev->set_next(tmp->nxt);
-            delete tmp;
-        };
+        void deleteVal(int v) {
+            if (head->getVal() == v) head = head->getNext();
+            else {
+                Node *tmp = head;
+                while (tmp->getNext() != NULL) 
+                    if ((tmp->getNext())->getVal() == v) { 
+                        tmp->setNext((tmp->getNext())->getNext());
+                        break;
+                    }
+            }
+        }
+
+        void print() {
+            Node *tmp = head;
+            while (tmp->getNext() != NULL) {
+                cout << (tmp->getVal()) << " -> ";
+                tmp = tmp->getNext();
+            }
+            cout << (tmp->getVal()) << " -> NULL" << endl;
+        }
 };
